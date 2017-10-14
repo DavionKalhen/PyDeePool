@@ -25,7 +25,8 @@ Grab the Rise API.
      git clone https://github.com/RiseVision/rise-py.git
      cp -f ./rise-py/rise ./;rm -fr ./rise-py
 
-Running the script for the first time will prompt you for answers, and will configure for you.
+Running the script for the first time will prompt you for answers, and will configure for you. If you aren't a
+Delegate, this script can register you as one. Note, this costs 25 Rise.
 
     @localhost:~/github/PyDeePool$ python3 pydeepool.py --run
     This is your first time running this script. Enter the following information to get going!
