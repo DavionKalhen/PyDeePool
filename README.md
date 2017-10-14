@@ -1,5 +1,5 @@
 # PyDeePool
-Rise Vision Delegate Pool Software. Includes a hop-proof payout script, and website with live payout statistics updated every 30 seconds. To become a Delegate, you must have your own Rise.node setup. This script can walk you throug the process of signing up as a delegate and payout all your voters. You can have a public or private pool. Payout is based on wallet balances at every block height (roughly every 30 seconds).
+Rise Vision Delegate Pool Software. Includes a hop-proof payout script, and website with live payout statistics updated every 30 seconds. To become a Delegate, you must have your own Rise.node setup. This script can walk you through the process of signing up as a delegate and payout all your voters. You can have a public or private pool. Payout is based on wallet balances at every block height (roughly every 30 seconds).
 
 # Setup
 To setup, you must first have Python3, Tornado, SQLite3, and Rise-Py.
