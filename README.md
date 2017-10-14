@@ -63,6 +63,15 @@ If for some reason the script were to stop, as long as your Delegate is still fo
 and it will pickup where it left off. If it's behind the current block it will not go to sleep, and instead run continuously
 until caught up. Balances will not be historical in this case and based off their current contribution.
 
+# Resetting
+
+If you've screwed up the configuration or wish to change things, you can reset the whole server by deleting the config and db file and running the script again to be prompted for setup options.
+THIS WILL LOSE ANY UNPAID BALANCES AND ALL CURRENT CONTRIBUTIONS
+
+     rm ./config.json
+     rm ./voters.db
+     python3 ./pydeepool
+
 # Customization
 Website templates are stored in the /html directory. They do have special values in there that shouldn't be touched. An eg.
    
