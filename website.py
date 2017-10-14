@@ -55,8 +55,11 @@ class AcntHandler(web.RequestHandler):
         weight = context['voter'].current_ave / context['stats'].current_average
         deliver = Decimal(context['stats'].current_forge * context['share'])
         stats = context['stats']
+        #get latest reward
+        reward = self.rise.blocks.get_blocks(limit=1)['blocks'][0]['reward']
+        forged_blocks = Decimal(stats.current_forge / reward)
         context['payout'] = deliver * weight
-        context['estpay'] = context['payout'] * (self.rise.config['blockpayout'] / Decimal(stats.current_height - stats.start_height))
+        context['estpay'] = context['payout'] * (30 / forged_blocks)
         loader = template.Loader(local_path('html'))        
         self.write(loader.load('account.html').generate(**context))
        
