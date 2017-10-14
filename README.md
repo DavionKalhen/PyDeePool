@@ -31,11 +31,11 @@ Running the script for the first time will prompt you for answers, and will conf
     This is your first time running this script. Enter the following information to get going!
 
     Enter your Public Address:
-    3511748430431975976R
+    3151592665681648214R
     Please enter you secret key.
-    asdf
+    ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ******
     Please enter your second secret key. If you don't have one leave blank, hit enter.
-     
+    ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ****** ******
     You aren't a delegate. You need to register as a delegate. Would you would like to register as a delegate. [Y/N]
     y
     Please enter a Username:
