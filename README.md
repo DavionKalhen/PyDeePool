@@ -21,6 +21,7 @@ Install your Python libs.
     
 
 Grab the Rise API.
+
      git clone https://github.com/RiseVision/rise-py.git
      cp -f ./rise-py/rise ./;rm -fr ./rise-py
 
