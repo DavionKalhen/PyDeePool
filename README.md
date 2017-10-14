@@ -65,9 +65,10 @@ until caught up. Balances will not be historical in this case and based off thei
 
 # Customization
 Website templates are stored in the /html directory. They do have special values in there that shouldn't be touched. An eg.
-
+   
+     {% dont touch %}
      <div>{{dont touch}}</div>
-
+     
 It uses the latest Bootstrap
 https://getbootstrap.com/docs/4.0/getting-started/introduction/
 
