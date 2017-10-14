@@ -35,7 +35,12 @@ Running the script for the first time will prompt you for answers, and will conf
     Please enter you secret key.
     asdf
     Please enter your second secret key. If you don't have one leave blank, hit enter.
-
+     
+    You aren't a delegate. You need to register as a delegate. Would you would like to register as a delegate. [Y/N]
+    y
+    Please enter a Username:
+    CanadianRink
+    You have successfully registered as a delegate.
     Please enter the minimum payout.
     1
     Please enter a number between 1-100 for the percentage you wish to share with your voters.
