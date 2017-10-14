@@ -43,6 +43,9 @@ Running the script for the first time will prompt you for answers, and will conf
     
     Please enter the number of blocks between payouts. 2880 is 24 hours.
     2880
-    Your delegate has been setup and configured. Use python3 ./pydeepool.py --run to begin payout script. Strongly suggested if you're not running from a local terminal you use 'nohup python3 ./pydeepool --run &' to run. You are setup running a PUBLIC pool so you pay everyone out. To switch to private 'python3 ./pydeepool.py --config-private' will switch you to a private pool.
+    Your delegate has been setup and configured. Use python3 ./pydeepool.py --run to begin payout script.
+    Strongly suggested if you're not running from a local terminal you use
+    'nohup python3 ./pydeepool --run &' to run. You are setup running a PUBLIC pool so you pay everyone out.
+    To switch to private 'python3 ./pydeepool.py --config-private' will switch you to a private pool.
 
       
