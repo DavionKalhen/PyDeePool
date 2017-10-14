@@ -10,6 +10,7 @@ config.json
 
 # Distribution / packaging
 .Python
+rise/
 env/
 build/
 develop-eggs/
