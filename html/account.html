@@ -1,0 +1,13 @@
+  <div class="card-header">
+    {{acnt['address']}}
+  </div>
+  <div class="card-body">
+    <h4 class="card-title">You have been voting for {{len(voter.dbcontribs)}}/{{stats.current_height-stats.start_height}} blocks.</h4>
+    <p class="card-text">Your current average vote is {{voter.current_ave/100000000}}<strong>R</strong> of {{stats.current_average/100000000}}<strong>R</strong> or {{"%.4f" % (voterperc*100)}}<strong>%</strong></p>
+    
+  </div>
+  <div class="card-footer text-muted">
+        <p>Estimated payout: {{"%.8f" % (estpay / 100000000)}}<strong>R</strong></p>
+        
+        <p>Pending Payout {{voter.payout/100000000}}</strong>R</strong>
+  </div>
