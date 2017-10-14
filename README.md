@@ -63,6 +63,14 @@ If for some reason the script were to stop, as long as your Delegate is still fo
 and it will pickup where it left off. If it's behind the current block it will not go to sleep, and instead run continuously
 until caught up. Balances will not be historical in this case and based off their current contribution.
 
+# Customization
+Website templates are stored in the /html directory. They do have special values in there that shouldn't be touched. An eg.
+
+     <div>{{dont touch}}</div>
+
+It uses the latest Bootstrap
+https://getbootstrap.com/docs/4.0/getting-started/introduction/
+
 # Donations
 
 Script by default includes a 0.5% dontaion to the dev that can be changed with the command line options before startup.
