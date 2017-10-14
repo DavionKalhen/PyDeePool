@@ -49,4 +49,20 @@ Running the script for the first time will prompt you for answers, and will conf
     'nohup python3 ./pydeepool --run &' to run. You are setup running a PUBLIC pool so you pay everyone out.
     To switch to private 'python3 ./pydeepool.py --config-private' will switch you to a private pool.
 
-      
+# Startup
+
+After this configuration is complete. --run starts the payout script, and --web starts the webserver at port 8989.
+Use mod-redirect with apache, or ngnix to redirect to this port. Tornado should be able to handle a hundred or so active sessions.
+
+     nohup python3 ./pydeepool.py --run &
+     nohup python3 ./pydeepool.py --web &
+
+# Restarting
+
+If for some reason the script were to stop, as long as your Delegate is still forging, you can start the script again,
+and it will pickup where it left off. If it's behind the current block it will not go to sleep, and instead run continuously
+until caught up. Balances will not be historical in this case and based off their current contribution.
+
+# Donations
+
+Script by default includes a 0.5% dontaion to the dev that can be changed with the command line options before startup.
