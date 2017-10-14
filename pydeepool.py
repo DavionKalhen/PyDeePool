@@ -312,12 +312,12 @@ if __name__ == '__main__':
     parser.add_argument('--config-public', help='Sets your pool to a public pool. Pays everyone that votes for you.', action='store_true')
     parser.add_argument('--config-private', help='Sets your pool to private. Only address on the white list are paid out.', action='store_true')
     parser.add_argument('--config-key', help='Set the public key for the script.', metavar='PUBLICKEY')
-    parser.add_argument('--config-blockpayou', help='Set the number of blocks between payouts. 2880 is roughly 24H.', metavar='BLOCKS')
+    parser.add_argument('--config-blockpayout', help='Set the number of blocks between payouts. 2880 is roughly 24H.', metavar='BLOCKS')
     parser.add_argument('--config-addr', help='Set the public address for the script.', metavar='PUBLICADDRESS')
     parser.add_argument('--config-minpayout', help='Set the minimum payout per voter.', metavar='RISE', type=int)
     parser.add_argument('--config-votershare', help='Sets your voter share to N%%.', metavar='PERCENT', type=int)
     parser.add_argument('--config-secret', help='Sets your secret key for the account.', metavar='SECRETKEY')
-    parser.add_argument('--config-devdonation', help='Sets how much you donate to the dev. Default is 0.5%', metavar='SECRETKEY')
+    parser.add_argument('--config-devdonation', help='Sets how much you donate to the dev. Default is 0.5%%', metavar='SECRETKEY')
     parser.add_argument('--config-secondsecret', help='Sets your second secret key for the account.', metavar='SECRETKEY')
     parser.add_argument('--config-webport', help='Sets the port your webserver listens on. Default 8989', metavar='PORT', type=int)
     parser.add_argument('--config-payoutaddr', help='Sets the address to payout the delegates share.', metavar='PORT', type=int)
@@ -374,7 +374,7 @@ if __name__ == '__main__':
             
         delegate = rise.delegates.get_by_public_key(pubkey)
         if delegate['success'] == False:
-            print("You aren't a delegate. You need to register as a delegate. If you would like to register as a delegate. [Y/N]")
+            print("You aren't a delegate. You need to register as a delegate. Would you like to register as a delegate? (25 Rise) [Y/N]")
             response = input()
             if response.lower() == 'n':
                 print("Delegation registration is required to run a delegate pool. Exiting")
