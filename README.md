@@ -10,7 +10,11 @@ To setup, you must first have Python3, Tornado, SQLite3, and Rise-Py.
      sudo apt-get install virtualenv
      sudo apt-get install sqlite3
      sudo apt-get install python3-pip
-
+Get PyDeePool
+     
+     git clone https://github.com/DavionKalhen/PyDeePool.git
+     cd PyDeePool
+     
 Setup your virtualenv
 
      virtualenv env
