@@ -24,6 +24,8 @@ Install your Python libs.
 
     pip3 install sqlite3client
     pip3 install tornado
+    pip3 install peewee
+    pip3 install request
     
 
 Grab the Rise API.
