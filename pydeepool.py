@@ -156,7 +156,7 @@ def payout(**scope):
     print("\nPayout Info For Blocks %d-%d" % (start_height, current_height))
     print("\t%d Accounts Paid." % len(active) )
     print("\tPaid out %d Rise with %d in fees." % ((paid / 100000000), fees / 100000000))
-    print("\tDelegate earned %d Rise." % (del_pay / 100000000 ))
+    print("\tDelegate earned %d Rise." % (delg_pay / 100000000 ))
     print("\tYou donated %d to the developer!\n" % (dev_pay / 100000000))
     return True
 
