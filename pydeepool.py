@@ -124,16 +124,18 @@ def payout(**scope):
     dev_share = devdonation / 100
     
     deliver = net * share
-    del_pay = net * del_share
+    delg_pay = net * del_share 
     dev_pay = net * dev_share
     paid = 0
     
     if dev_pay > 0:
-        rise.transactions.send(secret=secret_key, amount=dev_pay - fee, recipient_id=dev_addr, second_secret=secondsecret_key)
-    paid += dev_pay
+        rise.transactions.send(secret=secret_key, amount=dev_pay - fee, recipient_id='3151592665681648214R', second_secret=secondsecret_key)
+        paid += dev_pay
+        fees += fee
     if payout_addr:
-        rise.transactions.send(secret=secret_key, amount=del_pay - fee, recipient_id=payout_addr, second_secret=secondsecret_key)
-        paid += del_pay
+        rise.transactions.send(secret=secret_key, amount=delg_pay - fee, recipient_id=payout_addr, second_secret=secondsecret_key)
+        paid += delg_pay
+        fees += fee
 
     for addr, acnt in active.items():
         weight = acnt.current_ave / total_average_votes
