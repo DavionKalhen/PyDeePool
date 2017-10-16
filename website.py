@@ -57,8 +57,8 @@ class AcntHandler(web.RequestHandler):
         stats = context['stats']
         #get latest reward
         reward = self.rise.blocks.get_blocks(limit=1)['blocks'][0]['reward']
-        forged_blocks = Decimal(stats.current_forge / reward)
-        forged_perday = Decimal(self.rise.config['blockpayout'] / 101)
+        forged_blocks = (stats.current_forge / reward)
+        forged_perday = (self.rise.config['blockpayout'] / 101)
         context['payout'] = deliver * weight
         context['estpay'] = (context['payout']) / (forged_blocks/forged_perday)
         loader = template.Loader(local_path('html'))        
