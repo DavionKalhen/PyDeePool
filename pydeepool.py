@@ -61,6 +61,9 @@ class Voter(peewee.Model):
             self.address = acnt['address']
 
     def contribute(self, current_height, acnt, start_height, runDB=True):
+        delg = rise.accounts.get_delegates(acnt['address'])
+        if delg['success'] == False or delg['delegates'][0]['address'] != pub_address:
+            acnt['balance'] = 0
         self.contributions[current_height] = int(acnt['balance'])
         level = (current_height - start_height)+1
         contrib = sum( [ n for c, n in self.contributions.items() ] )
@@ -123,10 +126,14 @@ def payout(**scope):
     share = voter_share / 100
     dev_share = devdonation / 100
     
-    deliver = net * share
-    delg_pay = net * del_share 
-    dev_pay = net * dev_share
+    deliver = int(net * share)
+    delg_pay = int(net * del_share)
+    dev_pay = int(net * dev_share)
     paid = 0
+    accounts_paid = 0
+    if deliver + delg_pay + dev_pay > net:
+        print("Something went horribly wrong. %d %d %d > %d" % (deliver, delg_pay, dev_pay, net))
+        return False
     
     if dev_pay > 0:
         rise.transactions.send(secret=secret_key, amount=dev_pay - fee, recipient_id='3151592665681648214R', second_secret=secondsecret_key)
@@ -149,13 +156,17 @@ def payout(**scope):
             acnt.payout = 0
             paid += to_pay
             fees += fee
+            acnt.total_paid += to_pay
+            acnt.save()
+            acounts_paid += 1
+            
     delegate = Delegate.get(id=1)
     delegate.last_average = sum([a.current_ave for k, a in active.items()])
     delegate.total_payout += deliver
     delegate.save()
     print("\nPayout Info For Blocks %d-%d" % (start_height, current_height))
-    print("\t%d Accounts Paid." % len(active) )
-    print("\tPaid out %d Rise with %d in fees." % ((paid / 100000000), fees / 100000000))
+    print("\t%d Accounts Paid." % accounts_paid )
+    print("\tPaid out %d Rise with %.1f in fees." % ((paid / 100000000), fees / 100000000))
     print("\tDelegate earned %d Rise." % (delg_pay / 100000000 ))
     print("\tYou donated %d to the developer!\n" % (dev_pay / 100000000))
     return True
@@ -189,23 +200,18 @@ def process_blocks(start):
             if payout(**locals()):
                 start_height = current_height
                 active = {}
-                Voter.delete().execute()
                 Contrib.delete().execute()
                 delegate.start_height = current_height
                 delegate.current_forge = 0
                 delegate.save()
                 forged = 0
-        if pulse_count >= PULSE_PER_DAY:
-            pulse_count = 0
 
         #now snapshots the time letting all contrib entries to share the same stamp.
         now = datetime.now()
-        #This lets us know how long since the last pulse happened. It makes sure it's really close to 30 seconds.
+        #How long since the last pulse happened.
         diff = now - last_pulse
-        #Keep delay from being negative.
-        #Delay for 30 seconds to grab blocks.
         pulse = delay-diff.seconds
-        #The if check lets us play catchup if we're behind.
+        #Lets us play catchup if we're behind.
         if current_height >= newest_height:
             time.sleep(max(0, pulse))
         
@@ -224,7 +230,10 @@ def process_blocks(start):
         for acnt in accounts:
             if public_pool or acnt['address'] in whitelist:
                 if acnt['address'] not in active:
-                    active[acnt['address']] = Voter(acnt)
+                    try:
+                        active[acnt['address']] = Voter.get(address=acnt['address'])
+                    except Voter.DoesNotExist:
+                        active[acnt['address']] = Voter(acnt)
                 v = active[acnt['address']]
                 #Credit voter at this timestamp with current balance.
                 v.contribute(current_height, acnt, start_height)
@@ -238,6 +247,7 @@ def process_blocks(start):
         forged += int(latest_block['reward'])
         delegate.current_forge = forged
         delegate.save()
+        print("You forged %dR totaling %dR." % (int(latest_block['reward']) / 100000000, delegate.current_forge / 100000000 ))
         last_pulse = now
 
 def get_username():
@@ -307,6 +317,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PyDeePool is a Rise Delegates Pool. It was created in the wake of discovering abuse by pool hoppers. It tracks the balance of your voters at every block height. It averages out that based on a 2879 block period (24 hours). People who get in, in the 1400th block will have half the weight as someon in for the whole period.\n\n\tTo run first run the script with no arguments to generate a new config file. Use --run to start the payout script. If you want a webserver to display statistics, run the command again but with --web, this will start the webserver.')
     parser.add_argument('--run', help='Begins running the payout script.',  action="store_true")
     parser.add_argument('--web', help='Begins the webserver.',  action="store_true")
+    parser.add_argument('--status', help='Shows status and stats of the server.',  action="store_true")
     parser.add_argument('--add', help='Add to the whitelist', metavar='RISEADDR')
     parser.add_argument('--remove', help='Remove from the whitelist', metavar='RISEADDR')
     parser.add_argument('--display', help='Show a list of address on the Whitelist',  action="store_true")
@@ -440,7 +451,28 @@ if __name__ == '__main__':
             print("\t%s" % w)
         print("")
         sys.exit(1)
-
+        
+    if args.status:
+        try:
+            delg = Delegate.get(id=1)
+            d = rise.delegates.get_by_public_key(pub_key)['delegate']
+            delg.username = d['username']
+        except Delegate.DoesNotExist:
+            print("You've not run the script before.")
+            sys.exit(1)
+        
+        print("Current Delegate: %s" % delg.username)
+        if d['rank'] <= 101:
+            print("You are currently forging Rise!")
+        else:
+            print("You currently aren't forging Rise.")
+            
+        print("        Forge:    %d RISE" % (delg.current_forge/100000000))
+        print(" Total Payout:    %d RISE" % (delg.total_payout))
+        print("       Voters:    %d" % Voter.select().count())
+        print("   Total Vote:    %d RISE" % (int(d['vote']) / 100000000))
+        print(" Current Average: %d RISE" % (delg.current_average/100000000))
+        sys.exit(1)
     if args.add:
         if rise.accounts.get_account(args.add)['success'] == True:
             print("Adding %s to the whitelist." % args.add)
@@ -518,7 +550,7 @@ if __name__ == '__main__':
             print("It must be a number between 0.00 and 99.9")
             sys.exit(1)
 
-        CONFIG('devdonation', True)
+        CONFIG('devdonation', args.config_devdonation)
         sys.exit(1)        
         
 
